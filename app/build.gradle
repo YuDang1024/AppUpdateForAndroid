@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     buildToolsVersion "29.0.3"
     defaultConfig {
-        applicationId "com.kingsoft.appupdata"
+        applicationId "com.okhttp.appupdata"
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 1
@@ -12,10 +12,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
+
     }
 }
 
