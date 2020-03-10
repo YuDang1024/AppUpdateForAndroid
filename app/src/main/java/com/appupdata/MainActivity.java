@@ -2,6 +2,7 @@ package com.appupdata;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,11 +21,16 @@ import com.kingsoft.appupdata.R;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Date;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import static android.os.Process.SIGNAL_KILL;
 
 public class MainActivity extends AppCompatActivity {
     private Button mBtnupdater;
     private static Context context;
+    private long firstPressBackButtonTime = 0;
 
     public static Context getAppContext()
     {
@@ -90,5 +96,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         AppUpdater.getInstance().getNetManager().cancel(MainActivity.this);
+    }
+
+    public void onBackPressed() {
+
+        //moveTaskToBack(false);
+        long curTime = (new Date()).getTime();
+        long timeDifference = curTime - firstPressBackButtonTime;
+        Log.d("时间差", "" + timeDifference);
+
+        if (timeDifference >= 2000) {
+            Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
+            firstPressBackButtonTime = curTime;
+        }
+        else
+        {
+            finishAndRemoveTask();
+            android.os.Process.killProcess(android.os.Process.myPid());
+        }
     }
 }
